@@ -66,7 +66,7 @@ bool SockServer::start(int port)
 
 
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(30000);
+	addr.sin_port = htons(port);
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	if(bind(listener, (struct sockaddr *)&addr, sizeof(addr)) < 0)
 	{

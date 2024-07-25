@@ -27,9 +27,9 @@ int main(int argc, char** argv)
    	std::strstream ss;
 
 
-	if(argc<=2)
+	if(argc<=3)
 	{
-		std::cout<<"Исполльзование:\n Client <name> <duration>\n Пример:\n Client Name1 1\n";
+		std::cout<<"Исполльзование:\n Client <name> <port> <duration>\n Пример:\n Client Name1 3000 1\n";
 		exit(1);
 	}
 
@@ -39,23 +39,26 @@ int main(int argc, char** argv)
 	ss.clear();
 
 	ss<<argv[2];
+	int port;
+	ss>>port;
+	ss.clear();
+
+	ss<<argv[3];
 	int d;
 	ss>>d;
 
-	cli.Connect(name, d,"127.0.0.1",30000);
+	cli.Connect(name, d,"127.0.0.1",port);
 	
-	while (1)
+	
+	while(true)
 	{
-		while(1)
-		{
-			std::string logtext = '[' + currentDateTime() +"] " ; 
-			logtext += " ";
-			logtext += name;
-			if(!cli.Send(logtext.c_str()))
-			std::cout<<"failed ro send initial data to server";
-			std::chrono::seconds timespan(d);
-			std::this_thread::sleep_for(timespan);
-		}
+		std::string logtext = '[' + currentDateTime() +"] " ; 
+		logtext += " ";
+		logtext += name;
+		if(!cli.Send(logtext.c_str()))
+			std::cout<<"failed ro send data to server";
+		std::chrono::seconds timespan(d);
+		std::this_thread::sleep_for(timespan);
 	}
 
 	cli.~SockClient();
