@@ -10,7 +10,6 @@
 std::vector<std::pair<int,std::string>> Clientslog;
 std::mutex logaddMutex;
 
-
 // per client
 void RunThread(int sock)
 {
@@ -51,8 +50,6 @@ void RunThread(int sock)
 	close(sock);
 }
 
-
-
 bool SockServer::start(int port)
 {
 	listener = socket(AF_INET, SOCK_STREAM, 0);
@@ -62,8 +59,6 @@ bool SockServer::start(int port)
 		perror("socket");
 		return false;
 	}
-
-
 
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
@@ -76,12 +71,11 @@ bool SockServer::start(int port)
 
 	listen(listener, 8);
 
-	std::cout<<"Starting\n";
-  
-	  while(1)
-	{
-		int sock = accept(listener, NULL, NULL);
+	std::cout<<"Starting\n";  
 
+	while(1)
+	{
+		int sock = accept(listener, nullptr, nullptr);
 
 		if(sock < 0)
 		{
@@ -89,8 +83,7 @@ bool SockServer::start(int port)
 			exit(3);
 		}
 
-		std::cout<<"Accepted\n";
-		
+		std::cout<<"Accepted\n";		
 
 		threads.push_back(std::pair<int, std::thread*>(sock,new std::thread(RunThread, sock)));
 	}

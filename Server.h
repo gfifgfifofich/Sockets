@@ -15,14 +15,14 @@ inline std::map<int,float> connections;
 
 class SockServer
 {
-	int listener;
+	int listener = -1;
 	struct sockaddr_in addr;
 
 public:
 
 
 	char buf[1024];
-	int bufSize;
+	int bufSize = -1;
 
 	bool start(int port);
 	void stop();

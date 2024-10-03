@@ -1,2 +1,2 @@
-g++ -o3 ./SourceServ.cpp ./Server.cpp -o Server
+g++ -o3 ./SourceServer.cpp ./Server.cpp -o Server
 

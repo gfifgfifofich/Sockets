@@ -9,7 +9,6 @@
 #include <chrono>
 
 
-
 bool SockClient::Connect(std::string name,int duration,const char* ip,int port)
 {
     sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -28,20 +27,21 @@ bool SockClient::Connect(std::string name,int duration,const char* ip,int port)
         perror("connect");
         exit(2);
     }    
+    
     return true;
 }
+
 SockClient::~SockClient()
 {
     close(sock);
 }
+
 bool SockClient::Send(std::string Text)
 {
-
     if(send(sock, Text.c_str(), Text.size(), 0)<0)
         return false;
     else 
         return true;
-
 }
 
 std::string SockClient::Recvest()

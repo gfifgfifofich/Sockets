@@ -1,6 +1,6 @@
 #include "Client.h"
 #include <iostream>
-#include <strstream>
+#include <sstream>
 #include <chrono>
 #include <thread>
 #include <sys/time.h>
@@ -9,12 +9,13 @@ std::string currentDateTime() {
 	time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	struct tm tstruct;
 	char buf[80];
-	timeval start;
-	
-	gettimeofday(&start, NULL);
+
+	timeval start;	
+	gettimeofday(&start, nullptr);
 	strftime(buf, sizeof(buf), "%Y-%m-%d %T", localtime(&now));
 	std::string s = buf;
 	s += ".";
+
 	int ms = start.tv_usec;
 	s += std::to_string(ms/1000);
 	return s;
@@ -23,9 +24,7 @@ std::string currentDateTime() {
 int main(int argc, char** argv)
 {
 	SockClient cli;
-
-   	std::strstream ss;
-
+   	std::stringstream ss;
 
 	if(argc<=3)
 	{
@@ -44,11 +43,10 @@ int main(int argc, char** argv)
 	ss.clear();
 
 	ss<<argv[3];
-	int d;
-	ss>>d;
+	int duration;
+	ss>>duration;
 
-	cli.Connect(name, d,"127.0.0.1",port);
-	
+	cli.Connect(name, duration,"127.0.0.1",port);	
 	
 	while(true)
 	{
@@ -57,7 +55,7 @@ int main(int argc, char** argv)
 		logtext += name;
 		if(!cli.Send(logtext.c_str()))
 			std::cout<<"failed ro send data to server";
-		std::chrono::seconds timespan(d);
+		std::chrono::seconds timespan(duration);
 		std::this_thread::sleep_for(timespan);
 	}
 
